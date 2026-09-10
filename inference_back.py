@@ -29,6 +29,9 @@ def load_model_compatible(path):
             if layer["class_name"] == "MultiHeadAttention" and "use_gate" in layer["config"]:
                 layer["config"].pop("use_gate")
                 modified = True
+            if "quantization_config" in layer["config"]:
+                layer["config"].pop("quantization_config")
+                modified = True
 
         if not modified:
             return tf.keras.models.load_model(path, compile=False)
